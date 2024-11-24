@@ -33,8 +33,8 @@ func TestCustomerRepository_GetByCondition_GORM(t *testing.T) {
 		rows := sqlmock.NewRows([]string{"id", "name", "email", "phone", "password"}).
 			AddRow(1, "John Doe", "johndoe@example.com", "123456789", "password123")
 
-		mock.ExpectQuery(`SELECT \* FROM "customers" WHERE email = \$1 ORDER BY "customers"\."id" LIMIT \$2`).
-			WithArgs(customer.Email, 1). // GORM secara default mengisi LIMIT dengan 1
+		mock.ExpectQuery(`SELECT id, name, email, phone, password FROM customers WHERE 1=1 AND email = ?`).
+			WithArgs(customer.Email). // GORM secara default mengisi LIMIT dengan 1
 			WillReturnRows(rows)
 
 		result, err := customerRepo.GetByCondition(customer)
@@ -53,8 +53,8 @@ func TestCustomerRepository_GetByCondition_GORM(t *testing.T) {
 		rows := sqlmock.NewRows([]string{"id", "name", "email", "phone", "password"}).
 			AddRow(1, "John Doe", "johndoe@example.com", "123456789", "password123")
 
-		mock.ExpectQuery(`SELECT \* FROM "customers" WHERE phone = \$1 ORDER BY "customers"\."id" LIMIT \$2`).
-			WithArgs(customer.Phone, 1).
+		mock.ExpectQuery(`SELECT id, name, email, phone, password FROM customers WHERE 1=1 AND phone = ?`).
+			WithArgs(customer.Phone).
 			WillReturnRows(rows)
 
 		result, err := customerRepo.GetByCondition(customer)
@@ -70,8 +70,8 @@ func TestCustomerRepository_GetByCondition_GORM(t *testing.T) {
 			Email: "unknown@example.com",
 		}
 
-		mock.ExpectQuery(`SELECT \* FROM "customers" WHERE email = \$1 ORDER BY "customers"\."id" LIMIT \$2`).
-			WithArgs(customer.Email, 1).
+		mock.ExpectQuery(`SELECT id, name, email, phone, password FROM customers WHERE 1=1 AND email = ?`).
+			WithArgs(customer.Email).
 			WillReturnError(gorm.ErrRecordNotFound)
 
 		result, err := customerRepo.GetByCondition(customer)

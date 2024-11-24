@@ -37,7 +37,7 @@ func (customerRepo *CustomerRepository) GetAll() (*[]model.Customer, error) {
 
 	for rows.Next() {
 		var user model.Customer
-		if err := rows.Scan(rows, &customers); err != nil {
+		if err := rows.Scan(&user.Name, &user.Email, &user.Phone, &user.Password); err != nil {
 			return nil, err
 		}
 		customers = append(customers, user)
