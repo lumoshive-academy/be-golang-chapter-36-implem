@@ -1,7 +1,7 @@
 package router
 
 import (
-	"e-commerce-app/infra"
+	"be-golang-chapter-36-implem/infra"
 	"fmt"
 	"net/http"
 
