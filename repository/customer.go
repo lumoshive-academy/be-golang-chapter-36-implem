@@ -8,13 +8,19 @@ import (
 	"go.uber.org/zap"
 )
 
+type CustomerRepoInterface interface {
+	Create(customer *model.Customer) error
+	GetAll() (*[]model.Customer, error)
+	GetByCondition(customer model.Customer) (*model.Customer, error)
+}
+
 type CustomerRepository struct {
 	DB     *sql.DB
 	Logger *zap.Logger
 }
 
-func NewCustomerRepository(db *sql.DB, log *zap.Logger) CustomerRepository {
-	return CustomerRepository{
+func NewCustomerRepository(db *sql.DB, log *zap.Logger) CustomerRepoInterface {
+	return &CustomerRepository{
 		DB:     db,
 		Logger: log,
 	}

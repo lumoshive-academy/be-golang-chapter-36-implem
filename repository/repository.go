@@ -7,7 +7,7 @@ import (
 )
 
 type AllRepository struct {
-	CustomerRep CustomerRepository
+	CustomerRep CustomerRepoInterface
 }
 
 func NewAllRepository(db *sql.DB, log *zap.Logger) AllRepository {
